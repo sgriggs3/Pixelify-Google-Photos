@@ -100,11 +100,13 @@ class DeviceSpoofer: IXposedHookLoadPackage {
         androidVersionToSpoof?.getAsMap()?.run {
 
             val classLoader = lpparam?.classLoader ?: return
-            val classBuild = XposedHelpers.findClass("android.os.Build.VERSION", classLoader)
+            runCatching {
+                val classBuild = XposedHelpers.findClass("android.os.Build.VERSION", classLoader)
 
-            keys.forEach {
-                XposedHelpers.setStaticObjectField(classBuild, it, this[it])
-                if (verboseLog) log("VERSION SPOOF: $it - ${this[it]}")
+                keys.forEach {
+                    XposedHelpers.setStaticObjectField(classBuild, it, this[it])
+                    if (verboseLog) log("VERSION SPOOF: $it - ${this[it]}")
+                }
             }
         }
 
