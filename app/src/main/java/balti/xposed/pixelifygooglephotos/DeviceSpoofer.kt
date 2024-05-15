@@ -85,26 +85,26 @@ class DeviceSpoofer: IXposedHookLoadPackage {
         log("Device spoof: ${finalDeviceToSpoof?.deviceName}")
 
         finalDeviceToSpoof?.props?.run {
-
             if (keys.isEmpty()) return
             val classLoader = lpparam?.classLoader ?: return
-
-            val classBuild = XposedHelpers.findClass("android.os.Build", classLoader)
-            keys.forEach {
-                XposedHelpers.setStaticObjectField(classBuild, it, this[it])
-                if (verboseLog) log("DEVICE PROPS: $it - ${this[it]}")
+            runCatching {
+                val classBuild = XposedHelpers.findClass("android.os.Build", classLoader)
+                keys.forEach {
+                    XposedHelpers.setStaticObjectField(classBuild, it, this[it])
+                    if (verboseLog) log("DEVICE PROPS: $it - ${this[it]}")
+                }
             }
 
         }
 
         androidVersionToSpoof?.getAsMap()?.run {
-
             val classLoader = lpparam?.classLoader ?: return
-            val classBuild = XposedHelpers.findClass("android.os.Build.VERSION", classLoader)
-
-            keys.forEach {
-                XposedHelpers.setStaticObjectField(classBuild, it, this[it])
-                if (verboseLog) log("VERSION SPOOF: $it - ${this[it]}")
+            runCatching {
+                val classBuild = XposedHelpers.findClass("android.os.Build.VERSION", classLoader)
+                keys.forEach {
+                    XposedHelpers.setStaticObjectField(classBuild, it, this[it])
+                    if (verboseLog) log("VERSION SPOOF: $it - ${this[it]}")
+                }
             }
         }
 
