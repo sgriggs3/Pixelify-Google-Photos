@@ -7,7 +7,7 @@ import balti.xposed.pixelifygooglephotos.Constants.PREF_DEVICE_TO_SPOOF
 import balti.xposed.pixelifygooglephotos.Constants.PREF_ENABLE_VERBOSE_LOGS
 import balti.xposed.pixelifygooglephotos.Constants.PREF_SPOOF_ANDROID_VERSION_FOLLOW_DEVICE
 import balti.xposed.pixelifygooglephotos.Constants.PREF_SPOOF_ANDROID_VERSION_MANUAL
-import balti.xposed.pixelifygooglephotos.Constants.PREF_STRICTLY_CHECK_GOOGLE_PHOTOS
+import balti.xposed.pixelifygooglephotos.Constants.PREF_FORCED_MODEL_GOOGLE_PHOTOS
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XSharedPreferences
 import de.robv.android.xposed.XposedBridge
@@ -21,6 +21,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
  * Device properties stored in [DeviceProps].
  */
 class DeviceSpoofer: IXposedHookLoadPackage {
+
+    var forceDefaultDevice = false;
 
     /**
      * Simple message to log messages in lsposed log as well as android log.
@@ -63,7 +65,8 @@ class DeviceSpoofer: IXposedHookLoadPackage {
      * By default use Pixel 5.
      */
     private val finalDeviceToSpoof by lazy {
-        val deviceName = pref.getString(PREF_DEVICE_TO_SPOOF, DeviceProps.defaultDeviceName)
+        val deviceName = if (forceDefaultDevice) DeviceProps.defaultDeviceName
+            else pref.getString(PREF_DEVICE_TO_SPOOF, DeviceProps.defaultDeviceName)
         log("Device spoof: $deviceName")
         DeviceProps.getDeviceProps(deviceName)
     }
@@ -78,8 +81,8 @@ class DeviceSpoofer: IXposedHookLoadPackage {
          * If user selects to never use this on any other app other than Google photos,
          * then check package name and return if necessary.
          */
-        if (pref.getBoolean(PREF_STRICTLY_CHECK_GOOGLE_PHOTOS, true) &&
-            lpparam?.packageName != PACKAGE_NAME_GOOGLE_PHOTOS) return
+        if (pref.getBoolean(PREF_FORCED_MODEL_GOOGLE_PHOTOS, true) &&
+            lpparam?.packageName == PACKAGE_NAME_GOOGLE_PHOTOS) forceDefaultDevice = true
 
         log("Loaded DeviceSpoofer for ${lpparam?.packageName}")
         log("Device spoof: ${finalDeviceToSpoof?.deviceName}")

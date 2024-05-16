@@ -18,9 +18,8 @@
     <string name="spoofs_build_and_features">修改 build.prop 下的裝置參數</string>
     <string name="customize_feature_flags">自定義功能參數</string>
     <string name="feature_flags_changed">功能參數已更改！</string>
-    <string name="spoof_only_in_google_photos">確保僅對 Google 相簿進行 HOOK</string>
-    <string name="spoof_only_in_google_photos_desc">因 LSPosed 中僅使用白名單，預設該模組僅針對 Google 相簿啟用，
-     如果您想在其他應用中使用它，請保持此開關 <b>關閉</b>.</string>
+    <string name="enforced_spoof_in_google_photos">確保 Google 相簿使用 Pixel XL 機型</string>
+    <string name="enforced_spoof_in_google_photos_desc">如果您想在其他應用中使用該模組並同時保持 Google 相簿 的機型設置成 Pixel XL，請保持此開關 <b>開啓</b>.</string>
     <string name="override_rom_feature_levels">覆蓋 ROM 自訂功能</string>
     <string name="override_rom_feature_levels_desc">如果使用者選擇較低版本的 Pixel，
     將避免部分 ROM 內含有模擬 Pixel 的功能影響 Pixelify Google Photos <b>(推薦啟用)</b></string>
@@ -41,7 +40,7 @@
     <string name="changelog">更改日誌</string>
 
     <!--ActivityMain.xml-->
-    <string name="please_force_stop_google_photos">請強制停止 Google 相簿以使其生效。</string>
+    <string name="please_force_stop_google_photos">請強制停止被 HOOK 的應用以使其生效。</string>
     <string name="export_config">匯出配置</string>
     <string name="export_config_desc">備份或與他人分享此模組的設定。\n
         點選 \"儲存\" 後將提示選擇一個位置以將設定匯出為 JSON 檔案。

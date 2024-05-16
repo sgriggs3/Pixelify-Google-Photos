@@ -5,12 +5,14 @@ import balti.xposed.pixelifygooglephotos.Constants.PACKAGE_NAME_GOOGLE_PHOTOS
 import balti.xposed.pixelifygooglephotos.Constants.PREF_ENABLE_VERBOSE_LOGS
 import balti.xposed.pixelifygooglephotos.Constants.PREF_OVERRIDE_ROM_FEATURE_LEVELS
 import balti.xposed.pixelifygooglephotos.Constants.PREF_SPOOF_FEATURES_LIST
-import balti.xposed.pixelifygooglephotos.Constants.PREF_STRICTLY_CHECK_GOOGLE_PHOTOS
+import balti.xposed.pixelifygooglephotos.Constants.PREF_FORCED_MODEL_GOOGLE_PHOTOS
 import balti.xposed.pixelifygooglephotos.Constants.SHARED_PREF_FILE_NAME
 import de.robv.android.xposed.*
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class FeatureSpoofer: IXposedHookLoadPackage {
+
+    var forceDefaultFeatures = false;
 
     /**
      * Actual class is not android.content.pm.PackageManager.
@@ -67,7 +69,7 @@ class FeatureSpoofer: IXposedHookLoadPackage {
                         log("Feature flags init: EMPTY SET")
                         listOf()
                     }
-                    set == defaultFeatureLevelsName -> {
+                    set == defaultFeatureLevelsName || forceDefaultFeatures -> {
                         log("Feature flags init: DEFAULT SET")
                         defaultFeatures
                     }
@@ -150,8 +152,8 @@ class FeatureSpoofer: IXposedHookLoadPackage {
          * If user selects to never use this on any other app other than Google photos,
          * then check package name and return if necessary.
          */
-        if (pref.getBoolean(PREF_STRICTLY_CHECK_GOOGLE_PHOTOS, true) &&
-            lpparam?.packageName != PACKAGE_NAME_GOOGLE_PHOTOS) return
+        if (pref.getBoolean(PREF_FORCED_MODEL_GOOGLE_PHOTOS, true) &&
+            lpparam?.packageName == PACKAGE_NAME_GOOGLE_PHOTOS) forceDefaultFeatures = true
 
         log("Loaded FeatureSpoofer for ${lpparam?.packageName}")
 

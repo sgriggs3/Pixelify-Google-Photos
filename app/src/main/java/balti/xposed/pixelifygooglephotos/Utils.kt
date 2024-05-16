@@ -13,7 +13,7 @@ import balti.xposed.pixelifygooglephotos.Constants.PREF_OVERRIDE_ROM_FEATURE_LEV
 import balti.xposed.pixelifygooglephotos.Constants.PREF_SPOOF_ANDROID_VERSION_FOLLOW_DEVICE
 import balti.xposed.pixelifygooglephotos.Constants.PREF_SPOOF_ANDROID_VERSION_MANUAL
 import balti.xposed.pixelifygooglephotos.Constants.PREF_SPOOF_FEATURES_LIST
-import balti.xposed.pixelifygooglephotos.Constants.PREF_STRICTLY_CHECK_GOOGLE_PHOTOS
+import balti.xposed.pixelifygooglephotos.Constants.PREF_FORCED_MODEL_GOOGLE_PHOTOS
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedWriter
@@ -188,7 +188,7 @@ class Utils {
                 }
             }
 
-            PREF_STRICTLY_CHECK_GOOGLE_PHOTOS.let { key ->
+            PREF_FORCED_MODEL_GOOGLE_PHOTOS.let { key ->
                 jsonObject.optBoolean(key, true).let {
                     putBoolean(key, it)
                 }

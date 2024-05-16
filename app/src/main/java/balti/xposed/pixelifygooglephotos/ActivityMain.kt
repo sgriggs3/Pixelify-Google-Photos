@@ -25,7 +25,7 @@ import balti.xposed.pixelifygooglephotos.Constants.PREF_OVERRIDE_ROM_FEATURE_LEV
 import balti.xposed.pixelifygooglephotos.Constants.PREF_SPOOF_ANDROID_VERSION_FOLLOW_DEVICE
 import balti.xposed.pixelifygooglephotos.Constants.PREF_SPOOF_ANDROID_VERSION_MANUAL
 import balti.xposed.pixelifygooglephotos.Constants.PREF_SPOOF_FEATURES_LIST
-import balti.xposed.pixelifygooglephotos.Constants.PREF_STRICTLY_CHECK_GOOGLE_PHOTOS
+import balti.xposed.pixelifygooglephotos.Constants.PREF_FORCED_MODEL_GOOGLE_PHOTOS
 import balti.xposed.pixelifygooglephotos.Constants.RELEASES_URL
 import balti.xposed.pixelifygooglephotos.Constants.RELEASES_URL2
 import balti.xposed.pixelifygooglephotos.Constants.SHARED_PREF_FILE_NAME
@@ -122,7 +122,7 @@ class ActivityMain: AppCompatActivity(R.layout.activity_main) {
         val customizeFeatureFlags = findViewById<LinearLayout>(R.id.customize_feature_flags)
         val featureFlagsChanged = findViewById<TextView>(R.id.feature_flags_changed)
         val overrideROMFeatureLevels = findViewById<SwitchCompat>(R.id.override_rom_feature_levels)
-        val switchEnforceGooglePhotos = findViewById<SwitchCompat>(R.id.spoof_only_in_google_photos_switch)
+        val switchEnforceGooglePhotos = findViewById<SwitchCompat>(R.id.enforced_spoof_in_google_photos_switch)
         val deviceSpooferSpinner = findViewById<Spinner>(R.id.device_spoofer_spinner)
         val forceStopGooglePhotos = findViewById<Button>(R.id.force_stop_google_photos)
         val openGooglePhotos = findViewById<ImageButton>(R.id.open_google_photos)
@@ -142,7 +142,7 @@ class ActivityMain: AppCompatActivity(R.layout.activity_main) {
             pref?.edit()?.run {
                 putString(PREF_DEVICE_TO_SPOOF, DeviceProps.defaultDeviceName)
                 putBoolean(PREF_OVERRIDE_ROM_FEATURE_LEVELS, true)
-                putBoolean(PREF_STRICTLY_CHECK_GOOGLE_PHOTOS, true)
+                putBoolean(PREF_FORCED_MODEL_GOOGLE_PHOTOS, true)
                 putStringSet(
                     PREF_SPOOF_FEATURES_LIST,
                     DeviceProps.defaultFeatures.map { it.displayName }.toSet()
@@ -173,10 +173,10 @@ class ActivityMain: AppCompatActivity(R.layout.activity_main) {
          * See [FeatureSpoofer].
          */
         switchEnforceGooglePhotos.apply {
-            isChecked = pref?.getBoolean(PREF_STRICTLY_CHECK_GOOGLE_PHOTOS, true) ?: false
+            isChecked = pref?.getBoolean(PREF_FORCED_MODEL_GOOGLE_PHOTOS, true) ?: false
             setOnCheckedChangeListener { _, isChecked ->
                 pref?.edit()?.run {
-                    putBoolean(PREF_STRICTLY_CHECK_GOOGLE_PHOTOS, isChecked)
+                    putBoolean(PREF_FORCED_MODEL_GOOGLE_PHOTOS, isChecked)
                     apply()
                     showRebootSnack()
                 }

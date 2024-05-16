@@ -19,9 +19,8 @@
     <string name="spoofs_build_and_features">Spoofs build.prop and feature flags.</string>
     <string name="customize_feature_flags">Customize feature flags.</string>
     <string name="feature_flags_changed">Feature flags changed!</string>
-    <string name="spoof_only_in_google_photos">Make sure to spoof only in Google Photos.</string>
-    <string name="spoof_only_in_google_photos_desc">In LSPosed, the module is by default only activated for Google Photos.
-    If you want to use it in other apps, then keep this toggle <b>OFF</b>.</string>
+    <string name="enforced_spoof_in_google_photos">Force Pixel XL model for Google Photos.</string>
+    <string name="enforced_spoof_in_google_photos_desc">If you want to use it in other apps while keeping the Pixel XL model for Google Photos, then keep this toggle <b>ON</b>.</string>
     <string name="override_rom_feature_levels">Override ROM feature levels.</string>
     <string name="override_rom_feature_levels_desc">Pass false to hooked method for higher feature levels present in ROM
     if user selects a lower Pixel feature level. <b>(Recommended)</b></string>
@@ -49,7 +48,7 @@
     <string name="changelog">Change log</string>
 
     <!--ActivityMain.xml-->
-    <string name="please_force_stop_google_photos">Please force stop Google Photos to take effect.</string>
+    <string name="please_force_stop_google_photos">Please force stop hooked Apps to take effect.</string>
     <string name="export_config">Export configuration</string>
     <string name="export_config_desc">Save or share your settings of this module with others.\n
         \"Save\" will prompt to select a location to export the settings as a JSON file.
