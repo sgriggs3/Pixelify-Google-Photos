@@ -23,7 +23,7 @@ jobs:
         distribution: 'temurin'
 
     - name: Cache Gradle dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: |
           ~/.gradle/caches
@@ -52,13 +52,12 @@ jobs:
       run: test -f ${{steps.sign_app.outputs.signedReleaseFile}}
 
     - name: Upload signed APK
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Pixelify_GPhotos.apk
         path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
     - name: Collect signed APK
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: Pixelify_GPhotos.apk
-        
