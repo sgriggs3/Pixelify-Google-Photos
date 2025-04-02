@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
 
 jobs:
   build:
@@ -19,6 +21,16 @@ jobs:
       with:
         java-version: '21'
         distribution: 'temurin'
+
+    - name: Cache Gradle dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle
 
     - name: Build with Gradle
       run: ./gradlew app:assembleRelease
@@ -36,13 +48,16 @@ jobs:
         keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
         keyPassword: ${{ secrets.KEY_PASSWORD }}
 
+    - name: Verify signed APK
+      run: test -f ${{steps.sign_app.outputs.signedReleaseFile}}
+
     - name: Upload signed APK
-      uses: actions/upload-artifact@main
+      uses: actions/upload-artifact@v3
       with:
         name: Pixelify_GPhotos.apk
         path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
     - name: Collect signed APK
-      uses: actions/download-artifact@main
+      uses: actions/download-artifact@v3
       with:
         name: Pixelify_GPhotos.apk
